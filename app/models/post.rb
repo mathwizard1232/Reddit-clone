@@ -6,6 +6,7 @@ class Post < Ohm::Model
   attribute :location
   attribute :datetime
   attribute :author
+  attribute :comment
 
   counter :votes
 
@@ -38,7 +39,7 @@ class Post < Ohm::Model
   end
 
   def self.by_date(date)
-    find(:date, format_date(date))
+    find(:date => format_date(date))
   end
 
   def date
@@ -48,6 +49,22 @@ class Post < Ohm::Model
   def location=(value)
     value = "http://#{value}" unless value.empty? || value =~ %r{^http://}
     write_local(:location, value)
+  end
+
+  def addcomment(input, username)
+    @comment = Comment.new(input[:comment])
+    @comment.author = username
+
+    if @comment.valid?
+      @comment.create
+    end
+
+    if self.comment != nil
+      self.comment.add(@comment)
+    else
+      self.comment = @comment
+      assert_present :comment
+    end
   end
 
 protected

@@ -15,6 +15,29 @@
     on
     %a(href="/?date=#{@post.date}") #{@post.date}
 
-  %p
+  %p.url
     %span.votes= @post.votes
     votes
+
+  - if @comment != nil
+    != @comment.display_comment
+  - else
+    Text
+
+  - if logged_in?
+    %h2 Want to have your say?
+    %form(action="/posts/#{@id}/addcomment" method="post")
+      %p
+        %label(for="title") Title
+        %span.example Why you are Wrong
+        %br
+        %input(name="comment[title]" value="#{@comment_title}")
+
+      %p
+        %label(for="text") Comment
+        %span.example Because I said so.
+        %br
+        %textarea(name="comment[text]" value="#{@comment_text}" rows="6" cols="30")
+
+      %p
+        %button(type="submit" name="submit") Submit

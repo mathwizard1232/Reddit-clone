@@ -10,6 +10,12 @@ class Main
     # Grab yesterday's posts.
     @yesterday = top(Post.by_date(@date - 1))
 
+    today?
+
     haml :"home"
+  end
+
+  def today?
+    params[:date] ? Date.parse(params[:date]) == Date.today : 0
   end
 end

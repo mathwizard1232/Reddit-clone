@@ -2,8 +2,9 @@
 
 #grid
 
-  != list("Recently posted by #{@user}", @posts_authored)
-  != list("Recently voted by #{@user}",  @posts_voted)
+  != list("Recently posted", @posts_authored)
+  != list("Recently liked",  @posts_liked)
+  != list("Recently disliked", @posts_disliked)
 
   .list.just_added
     %h2 Profile information
@@ -12,8 +13,8 @@
         %span.votes= @posts_authored.size
         Posts submitted
       %li
-        %span.votes= @posts_voted.size
+        %span.votes= @posts_liked.size + @posts_disliked.size
         Votes issued
       %li
-        %span.votes= @user.votes_received
-        Votes received
+        %span.votes= @user.votes_net
+        Net positive votes

@@ -8,6 +8,8 @@ class Main
     @post = Post[params[:id]]
     @author = User[@post.author]
     @url = @post.location
+    @comment = @post.comment
+    @id = params[:id]
     haml :"posts/id"
   end
 
@@ -19,6 +21,7 @@ class Main
 
     if @post.valid?
       @post.create
+      current_user.vote(@post,"w")
       session[:notice] = "Your link has been added"
       redirect "/"
     else
@@ -30,7 +33,19 @@ class Main
     accept_login_or_signup
 
     @post = Post[params[:id]]
-    current_user.vote_for(@post)
+    @vote = params[:submit]
+
+    current_user.vote(@post,@vote)
+    
+    redirect back
+  end
+
+  post "/posts/:id/addcomment" do
+    accept_login_or_signup
+
+    @post = Post[params[:id]]
+    @post.addcomment(params,current_user.username)
+
     redirect back
   end
 
@@ -79,10 +94,11 @@ class Main
     end
 
     def vote_post(post)
-      voted = current_user.voted_for?(post) if logged_in?
+      voted = current_user.voted?(post) if logged_in?
       capture_haml do
         haml_tag(:form, :action => "/posts/#{post.id}", :method => "post", :class => "vote") do
-          haml_tag(:button, "♥", :type => "submit", :class => voted ? "voted" : "")
+          haml_tag(:button, "w", :type => "submit", :name => "submit", :value => "w",  :class => voted==1 ? "voted" : "")
+          haml_tag(:button, "l", :type => "submit", :name => "submit", :value => "l", :class => voted==-1 ? "voted" : "")
         end
       end
     end
