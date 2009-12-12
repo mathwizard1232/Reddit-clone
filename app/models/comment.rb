@@ -3,7 +3,6 @@ class Comment < Ohm::Model
   attribute :title
   attribute :text
   attribute :author
-  attribute :next
 
   attribute :datetime
 
@@ -18,18 +17,6 @@ class Comment < Ohm::Model
     super
   end
 
-  def display_comment
-    partial(:"posts/comment", :title => title, :author => author, :text => text)
-    :next.display_comment
-  end
-
-  def add(comment)
-    if :comment
-      :comment.add(comment)
-    else
-      set(:comment => @comment)
-    end
-  end
 
 protected
 

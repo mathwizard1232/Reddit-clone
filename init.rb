@@ -26,7 +26,7 @@ end
 Ohm.connect(settings(:redis))
 
 # Load all application files.
-Dir[root_path("app/**/*.rb")].each do |file|
+Dir[root_path("app/**/*.rb")].sort.each do |file|
   require file
 end
 

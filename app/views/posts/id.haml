@@ -19,10 +19,8 @@
     %span.votes= @post.votes
     votes
 
-  - if @comment != nil
-    != @comment.display_comment
-  - else
-    Text
+  - @post.comments.each do |comment|
+    != display_comment(comment.title, comment.text, comment.author)
 
   - if logged_in?
     %h2 Want to have your say?

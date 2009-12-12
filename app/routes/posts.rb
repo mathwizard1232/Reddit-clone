@@ -8,7 +8,6 @@ class Main
     @post = Post[params[:id]]
     @author = User[@post.author]
     @url = @post.location
-    @comment = @post.comment
     @id = params[:id]
     haml :"posts/id"
   end

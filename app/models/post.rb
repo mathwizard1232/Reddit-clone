@@ -6,7 +6,8 @@ class Post < Ohm::Model
   attribute :location
   attribute :datetime
   attribute :author
-  attribute :comment
+
+  list :comments, Comment
 
   counter :votes
 
@@ -58,13 +59,7 @@ class Post < Ohm::Model
     if @comment.valid?
       @comment.create
     end
-
-    if self.comment != nil
-      self.comment.add(@comment)
-    else
-      self.comment = @comment
-      assert_present :comment
-    end
+    comments.add(@comment)
   end
 
 protected
