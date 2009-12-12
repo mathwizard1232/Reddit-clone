@@ -1,0 +1,10 @@
+class Comment < Ohm::Model
+
+  attribute :title
+  attribute :text
+  attribute :author
+
+  def create
+    self.datetime ||= Time.now.strftime("%Y-%m-%d %H:%M:%S")
+    super
+  end
