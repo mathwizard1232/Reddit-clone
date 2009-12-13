@@ -21,7 +21,7 @@ class User < Ohm::Model
   end
 
   def self.authenticate(username, password)
-    raise WrongUsername unless user = find(:username, username).first
+    raise WrongUsername unless user = find(:username => username).first
     raise WrongPassword unless user.password == encrypt(password, user.salt)
     user
   end
