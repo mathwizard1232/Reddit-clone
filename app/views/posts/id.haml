@@ -4,10 +4,8 @@
   - if logged_in?
     != vote_post(@post)
 
-  %h1= @post
-
-  %p.url
-    %a(href=@url title=@url)= @url
+  %h1.url
+    %a(href=@url title=@url)= @post
 
   %p
     Submitted by
@@ -23,7 +21,8 @@
     != display_comment(comment.title, comment.text, comment.author)
 
   - if logged_in?
-    %h2 Want to have your say?
+    %p.spacing
+    %h3 Want to have your say?
     %form(action="/posts/#{@id}/addcomment" method="post")
       %p
         %label(for="title") Title
